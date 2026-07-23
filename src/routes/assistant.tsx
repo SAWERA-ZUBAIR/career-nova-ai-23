@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useState } from "react";
+import { useState, type ReactElement } from "react";
 import { Sparkles, Loader2, Send } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { PageHeader } from "@/components/PageHeader";
@@ -46,7 +46,7 @@ function Field({ label, value, onChange, placeholder, multi = false }: { label: 
 function renderMarkdown(md: string) {
   // ultra-light md renderer: ## headings, - bullets, blank lines
   const lines = md.split("\n");
-  const out: JSX.Element[] = [];
+  const out: ReactElement[] = [];
   let list: string[] = [];
   const flushList = () => {
     if (list.length) {
