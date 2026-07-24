@@ -1,12 +1,11 @@
 import { ArrowUpRight, Bookmark } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+import { useApplications, useSaved } from "@/lib/storage";
+import type { Opportunity } from "@/lib/sample-data";
 
 export function GlassCard({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return (
-    <div className={`glass-strong rounded-3xl p-4 ${className}`}>
-      {children}
-    </div>
-  );
+  return <div className={`glass-strong rounded-3xl p-4 ${className}`}>{children}</div>;
 }
 
 export function SectionHeader({ title, action }: { title: string; action?: ReactNode }) {
@@ -23,9 +22,7 @@ export function Chip({ children, active = false, onClick }: { children: ReactNod
     <button
       onClick={onClick}
       className={`shrink-0 rounded-full px-4 py-2 text-xs font-semibold transition-all ${
-        active
-          ? "bg-hero text-white shadow-elegant"
-          : "glass text-foreground hover:scale-105"
+        active ? "bg-hero text-white shadow-elegant" : "glass text-foreground hover:scale-105"
       }`}
     >
       {children}
@@ -47,36 +44,48 @@ export function Badge({ children, tone = "default" }: { children: ReactNode; ton
   );
 }
 
-export function OpportunityCard({
-  logo,
-  title,
-  subtitle,
-  meta,
-  badges,
-  deadline,
-  onApply,
-}: {
-  logo: string;
-  title: string;
-  subtitle: string;
-  meta?: string;
-  badges?: ReactNode;
-  deadline?: string;
-  onApply?: () => void;
-}) {
+export function OpportunityCard({ opportunity, badges }: { opportunity: Opportunity; badges?: ReactNode }) {
+  const { isSaved, toggle } = useSaved();
+  const { record } = useApplications();
+  const saved = isSaved(opportunity.id);
+
+  const onApply = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    record(opportunity.id);
+    window.open(opportunity.applyUrl, "_blank", "noopener,noreferrer");
+  };
+  const onSave = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggle(opportunity.id);
+  };
+
   return (
-    <div className="glass-strong group rounded-3xl p-4 transition-all hover:-translate-y-0.5 hover:shadow-elegant animate-in fade-in slide-in-from-bottom-2 duration-500">
+    <Link
+      to="/opportunity/$type/$id"
+      params={{ type: opportunity.type, id: opportunity.id }}
+      className="glass-strong group block rounded-3xl p-4 transition-all hover:-translate-y-0.5 hover:shadow-elegant animate-in fade-in slide-in-from-bottom-2 duration-500"
+    >
       <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-3">
         <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-hero text-2xl shadow-elegant">
-          {logo}
+          {opportunity.logo}
         </div>
         <div className="min-w-0">
-          <h3 className="truncate font-display text-base font-bold">{title}</h3>
-          <p className="truncate text-sm text-muted-foreground">{subtitle}</p>
-          {meta && <p className="mt-0.5 truncate text-xs text-muted-foreground">{meta}</p>}
+          <h3 className="truncate font-display text-base font-bold">{opportunity.title}</h3>
+          <p className="truncate text-sm text-muted-foreground">
+            {opportunity.organization} · {opportunity.location}
+          </p>
+          {opportunity.meta && <p className="mt-0.5 truncate text-xs text-muted-foreground">{opportunity.meta}</p>}
         </div>
-        <button aria-label="Save" className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-muted text-muted-foreground transition-colors hover:bg-primary/15 hover:text-primary">
-          <Bookmark className="h-4 w-4" />
+        <button
+          onClick={onSave}
+          aria-label={saved ? "Remove from saved" : "Save"}
+          className={`grid h-9 w-9 shrink-0 place-items-center rounded-full transition-colors ${
+            saved ? "bg-primary/20 text-primary" : "bg-muted text-muted-foreground hover:bg-primary/15 hover:text-primary"
+          }`}
+        >
+          <Bookmark className={`h-4 w-4 ${saved ? "fill-current" : ""}`} />
         </button>
       </div>
 
@@ -84,7 +93,7 @@ export function OpportunityCard({
 
       <div className="mt-3 flex items-center justify-between gap-3">
         <div className="min-w-0 text-[11px] text-muted-foreground">
-          {deadline && <>Deadline · <span className="font-semibold text-foreground">{deadline}</span></>}
+          Deadline · <span className="font-semibold text-foreground">{opportunity.deadline}</span>
         </div>
         <button
           onClick={onApply}
@@ -93,7 +102,7 @@ export function OpportunityCard({
           Apply <ArrowUpRight className="h-3.5 w-3.5" />
         </button>
       </div>
-    </div>
+    </Link>
   );
 }
 
