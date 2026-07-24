@@ -1,15 +1,15 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { ArrowLeft, ArrowUpRight, Bookmark, Calendar, MapPin, Building2 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { GlassCard, Badge } from "@/components/ui-bits";
-import { getOpportunity, type OppType } from "@/lib/sample-data";
+import { getOpportunity } from "@/lib/sample-data";
 import { useApplications, useSaved } from "@/lib/storage";
 
 export const Route = createFileRoute("/opportunity/$type/$id")({
-  head: ({ params }) => ({
+  head: () => ({
     meta: [
       { title: `Opportunity — CareerNova AI` },
-      { name: "description", content: `Details for opportunity ${params.id}.` },
+      { name: "description", content: `Full details and application link for this opportunity.` },
       { property: "og:title", content: "Opportunity — CareerNova AI" },
       { property: "og:description", content: "Full details and application link." },
     ],
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/opportunity/$type/$id")({
 function DetailPage() {
   const { id } = Route.useParams();
   const opp = getOpportunity(id);
-  const navigate = useNavigate();
+  const router = useRouter();
   const { isSaved, toggle } = useSaved();
   const { record, hasApplied } = useApplications();
 
@@ -30,7 +30,7 @@ function DetailPage() {
         <div className="px-5 pt-10 text-center">
           <h1 className="font-display text-2xl font-black">Not found</h1>
           <p className="mt-2 text-sm text-muted-foreground">This opportunity no longer exists.</p>
-          <Link to="/jobs" className="mt-4 inline-flex rounded-full bg-hero px-4 py-2 text-sm font-semibold text-white shadow-elegant">
+          <Link to="/jobs" search={{ q: "", cat: "All" }} className="mt-4 inline-flex rounded-full bg-hero px-4 py-2 text-sm font-semibold text-white shadow-elegant">
             Browse jobs
           </Link>
         </div>
@@ -50,7 +50,7 @@ function DetailPage() {
     <AppShell>
       <div className="px-5 pt-6">
         <button
-          onClick={() => navigate({ to: ".." })}
+          onClick={() => router.history.back()}
           className="glass inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-xs font-semibold"
         >
           <ArrowLeft className="h-3.5 w-3.5" /> Back
@@ -110,6 +110,3 @@ function DetailPage() {
     </AppShell>
   );
 }
-
-// Silence unused import when TS is strict about JSX-only usage.
-export type _OppType = OppType;
