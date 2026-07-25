@@ -1,6 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Home, Briefcase, GraduationCap, Sparkles, User, Moon, Sun } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
+import { useT } from "@/lib/i18n";
 
 const TABS = [
   { to: "/", label: "Home", icon: Home },
