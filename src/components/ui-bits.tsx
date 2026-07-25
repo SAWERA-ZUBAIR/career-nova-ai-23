@@ -48,6 +48,7 @@ export function Badge({ children, tone = "default" }: { children: ReactNode; ton
 export function OpportunityCard({ opportunity, badges }: { opportunity: Opportunity; badges?: ReactNode }) {
   const { isSaved, toggle } = useSaved();
   const { record } = useApplications();
+  const { t } = useT();
   const saved = isSaved(opportunity.id);
   const available = Boolean(opportunity.applyUrl && /^https?:\/\//.test(opportunity.applyUrl));
 
