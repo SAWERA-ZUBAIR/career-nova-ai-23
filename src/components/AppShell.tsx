@@ -76,7 +76,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                     active ? "text-foreground" : "text-muted-foreground"
                   }`}
                 >
-                  {label}
+                  {t(label)}
                 </span>
               </Link>
             );
