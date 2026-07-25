@@ -48,10 +48,12 @@ export function OpportunityCard({ opportunity, badges }: { opportunity: Opportun
   const { isSaved, toggle } = useSaved();
   const { record } = useApplications();
   const saved = isSaved(opportunity.id);
+  const available = Boolean(opportunity.applyUrl && /^https?:\/\//.test(opportunity.applyUrl));
 
   const onApply = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    if (!available) return;
     record(opportunity.id);
     window.open(opportunity.applyUrl, "_blank", "noopener,noreferrer");
   };
@@ -89,18 +91,32 @@ export function OpportunityCard({ opportunity, badges }: { opportunity: Opportun
         </button>
       </div>
 
-      {badges && <div className="mt-3 flex flex-wrap gap-1.5">{badges}</div>}
+      <div className="mt-3 flex flex-wrap gap-1.5">
+        {badges}
+        <Badge tone="success">Free to Apply</Badge>
+        {opportunity.officialSource && <Badge tone="primary">Official</Badge>}
+      </div>
 
       <div className="mt-3 flex items-center justify-between gap-3">
         <div className="min-w-0 text-[11px] text-muted-foreground">
           Deadline · <span className="font-semibold text-foreground">{opportunity.deadline}</span>
         </div>
-        <button
-          onClick={onApply}
-          className="inline-flex shrink-0 items-center gap-1 rounded-full bg-hero px-4 py-2 text-xs font-semibold text-white shadow-elegant transition-transform hover:scale-105 active:scale-95"
-        >
-          Apply <ArrowUpRight className="h-3.5 w-3.5" />
-        </button>
+        {available ? (
+          <button
+            onClick={onApply}
+            className="inline-flex shrink-0 items-center gap-1 rounded-full bg-cta px-4 py-2 text-xs font-semibold text-white shadow-elegant transition-transform hover:scale-105 active:scale-95"
+          >
+            Apply <ArrowUpRight className="h-3.5 w-3.5" />
+          </button>
+        ) : (
+          <button
+            disabled
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+            className="inline-flex shrink-0 cursor-not-allowed items-center gap-1 rounded-full bg-muted px-4 py-2 text-xs font-semibold text-muted-foreground"
+          >
+            Application Currently Unavailable
+          </button>
+        )}
       </div>
     </Link>
   );
