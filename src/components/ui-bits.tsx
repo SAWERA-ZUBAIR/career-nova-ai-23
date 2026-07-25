@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { useApplications, useSaved } from "@/lib/storage";
 import type { Opportunity } from "@/lib/sample-data";
+import { useT } from "@/lib/i18n";
 
 export function GlassCard({ children, className = "" }: { children: ReactNode; className?: string }) {
   return <div className={`glass-strong rounded-3xl p-4 ${className}`}>{children}</div>;
