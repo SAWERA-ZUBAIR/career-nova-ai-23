@@ -153,6 +153,10 @@
   background: var(--gradient-mesh);
 }
 
+@utility bg-cta {
+  background: var(--gradient-cta);
+}
+
 @utility shadow-elegant {
   box-shadow: var(--shadow-elegant);
 }
