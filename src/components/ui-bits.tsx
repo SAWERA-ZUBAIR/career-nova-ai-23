@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { useApplications, useSaved } from "@/lib/storage";
 import type { Opportunity } from "@/lib/sample-data";
+import { useT } from "@/lib/i18n";
 
 export function GlassCard({ children, className = "" }: { children: ReactNode; className?: string }) {
   return <div className={`glass-strong rounded-3xl p-4 ${className}`}>{children}</div>;
@@ -47,6 +48,7 @@ export function Badge({ children, tone = "default" }: { children: ReactNode; ton
 export function OpportunityCard({ opportunity, badges }: { opportunity: Opportunity; badges?: ReactNode }) {
   const { isSaved, toggle } = useSaved();
   const { record } = useApplications();
+  const { t } = useT();
   const saved = isSaved(opportunity.id);
   const available = Boolean(opportunity.applyUrl && /^https?:\/\//.test(opportunity.applyUrl));
 
@@ -93,20 +95,20 @@ export function OpportunityCard({ opportunity, badges }: { opportunity: Opportun
 
       <div className="mt-3 flex flex-wrap gap-1.5">
         {badges}
-        <Badge tone="success">Free to Apply</Badge>
-        {opportunity.officialSource && <Badge tone="primary">Official</Badge>}
+        <Badge tone="success">{t("Free to Apply")}</Badge>
+        {opportunity.officialSource && <Badge tone="primary">{t("Official")}</Badge>}
       </div>
 
       <div className="mt-3 flex items-center justify-between gap-3">
         <div className="min-w-0 text-[11px] text-muted-foreground">
-          Deadline · <span className="font-semibold text-foreground">{opportunity.deadline}</span>
+          {t("Deadline")} · <span className="font-semibold text-foreground">{opportunity.deadline}</span>
         </div>
         {available ? (
           <button
             onClick={onApply}
             className="inline-flex shrink-0 items-center gap-1 rounded-full bg-cta px-4 py-2 text-xs font-semibold text-white shadow-elegant transition-transform hover:scale-105 active:scale-95"
           >
-            Apply <ArrowUpRight className="h-3.5 w-3.5" />
+            {t("Apply")} <ArrowUpRight className="h-3.5 w-3.5" />
           </button>
         ) : (
           <button
@@ -114,7 +116,7 @@ export function OpportunityCard({ opportunity, badges }: { opportunity: Opportun
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
             className="inline-flex shrink-0 cursor-not-allowed items-center gap-1 rounded-full bg-muted px-4 py-2 text-xs font-semibold text-muted-foreground"
           >
-            Application Currently Unavailable
+            {t("Application Currently Unavailable")}
           </button>
         )}
       </div>

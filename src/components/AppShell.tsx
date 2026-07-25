@@ -1,6 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Home, Briefcase, GraduationCap, Sparkles, User, Moon, Sun } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
+import { useT } from "@/lib/i18n";
 
 const TABS = [
   { to: "/", label: "Home", icon: Home },
@@ -45,6 +46,7 @@ export function ThemeToggle() {
 
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { t } = useT();
 
   return (
     <div className="relative mx-auto flex min-h-screen w-full max-w-[520px] flex-col bg-background bg-mesh">
@@ -74,7 +76,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                     active ? "text-foreground" : "text-muted-foreground"
                   }`}
                 >
-                  {label}
+                  {t(label)}
                 </span>
               </Link>
             );
