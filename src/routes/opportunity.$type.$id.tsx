@@ -40,8 +40,10 @@ function DetailPage() {
 
   const saved = isSaved(opp.id);
   const applied = hasApplied(opp.id);
+  const available = Boolean(opp.applyUrl && /^https?:\/\//.test(opp.applyUrl));
 
   const onApply = () => {
+    if (!available) return;
     record(opp.id);
     window.open(opp.applyUrl, "_blank", "noopener,noreferrer");
   };
@@ -82,6 +84,9 @@ function DetailPage() {
           </div>
           <div className="mt-3 flex flex-wrap gap-1.5">
             <Badge tone="primary">{opp.category}</Badge>
+            <Badge tone="success">Free to Apply</Badge>
+            <Badge tone="success">No Registration Fee</Badge>
+            {opp.officialSource && <Badge tone="primary">Official Employer Site</Badge>}
             {opp.tags.map((t) => <Badge key={t}>{t}</Badge>)}
           </div>
         </GlassCard>
@@ -99,12 +104,21 @@ function DetailPage() {
             <Bookmark className={`h-4 w-4 ${saved ? "fill-current" : ""}`} />
             {saved ? "Saved" : "Save"}
           </button>
-          <button
-            onClick={onApply}
-            className="flex flex-1 items-center justify-center gap-2 rounded-full bg-hero px-4 py-3 text-sm font-semibold text-white shadow-elegant transition-transform hover:scale-[1.02] active:scale-95"
-          >
-            {applied ? "Applied — Open again" : "Apply Now"} <ArrowUpRight className="h-4 w-4" />
-          </button>
+          {available ? (
+            <button
+              onClick={onApply}
+              className="flex flex-1 items-center justify-center gap-2 rounded-full bg-cta px-4 py-3 text-sm font-semibold text-white shadow-elegant transition-transform hover:scale-[1.02] active:scale-95"
+            >
+              {applied ? "Applied — Open again" : "Apply Now"} <ArrowUpRight className="h-4 w-4" />
+            </button>
+          ) : (
+            <button
+              disabled
+              className="flex flex-1 cursor-not-allowed items-center justify-center gap-2 rounded-full bg-muted px-4 py-3 text-sm font-semibold text-muted-foreground"
+            >
+              Application Currently Unavailable
+            </button>
+          )}
         </div>
       </div>
     </AppShell>
