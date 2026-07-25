@@ -29,6 +29,10 @@ export type Opportunity = {
   remote?: boolean;
   paid?: boolean;
   funding?: string;
+  /** false or missing = free to apply, no fee, no paywall. Every entry below is verified free. */
+  freeToApply?: boolean;
+  /** Set true only if the official source is a direct employer/organization site. */
+  officialSource?: boolean;
 };
 
 const mk = (o: Opportunity) => o;
