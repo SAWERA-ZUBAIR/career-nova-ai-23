@@ -144,7 +144,7 @@ export function useProfile() {
 
 // -------- Settings --------
 export type Settings = {
-  language: "English" | "French" | "Spanish" | "Swahili";
+  language: "English";
   notifications: { jobAlerts: boolean; weeklyDigest: boolean; deadlines: boolean };
   privacy: { profilePublic: boolean; analytics: boolean };
 };

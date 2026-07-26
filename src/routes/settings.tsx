@@ -58,23 +58,8 @@ function SettingsPage() {
           <h3 className="mb-1 font-display text-sm font-bold">Appearance</h3>
           <div className="divide-y divide-border">
             <Row label="Dark mode" hint="Switch theme" right={<ThemeToggle />} />
-            <Row
-              label="Language"
-              hint="Interface language"
-              right={
-                <select
-                  value={s.language}
-                  onChange={(e) => update("language", e.target.value as Settings["language"])}
-                  className="glass rounded-full px-3 py-1.5 text-xs font-semibold"
-                >
-                  <option>English</option>
-                  <option>French</option>
-                  <option>Spanish</option>
-                  <option>Swahili</option>
-                </select>
-              }
-            />
           </div>
+
         </GlassCard>
 
         <GlassCard>
