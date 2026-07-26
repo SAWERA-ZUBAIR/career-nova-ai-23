@@ -11,11 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as SavedRouteImport } from './routes/saved'
+import { Route as RoadmapRouteImport } from './routes/roadmap'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as JobsRouteImport } from './routes/jobs'
+import { Route as InterviewCoachRouteImport } from './routes/interview-coach'
+import { Route as CoverLetterRouteImport } from './routes/cover-letter'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as ApplicationsRouteImport } from './routes/applications'
@@ -30,6 +33,11 @@ const SettingsRoute = SettingsRouteImport.update({
 const SavedRoute = SavedRouteImport.update({
   id: '/saved',
   path: '/saved',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoadmapRoute = RoadmapRouteImport.update({
+  id: '/roadmap',
+  path: '/roadmap',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -55,6 +63,16 @@ const NotificationsRoute = NotificationsRouteImport.update({
 const JobsRoute = JobsRouteImport.update({
   id: '/jobs',
   path: '/jobs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InterviewCoachRoute = InterviewCoachRouteImport.update({
+  id: '/interview-coach',
+  path: '/interview-coach',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoverLetterRoute = CoverLetterRouteImport.update({
+  id: '/cover-letter',
+  path: '/cover-letter',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -88,11 +106,14 @@ export interface FileRoutesByFullPath {
   '/applications': typeof ApplicationsRoute
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
+  '/cover-letter': typeof CoverLetterRoute
+  '/interview-coach': typeof InterviewCoachRoute
   '/jobs': typeof JobsRoute
   '/notifications': typeof NotificationsRoute
   '/opportunities': typeof OpportunitiesRoute
   '/profile': typeof ProfileRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/roadmap': typeof RoadmapRoute
   '/saved': typeof SavedRoute
   '/settings': typeof SettingsRoute
   '/opportunity/$type/$id': typeof OpportunityTypeIdRoute
@@ -102,11 +123,14 @@ export interface FileRoutesByTo {
   '/applications': typeof ApplicationsRoute
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
+  '/cover-letter': typeof CoverLetterRoute
+  '/interview-coach': typeof InterviewCoachRoute
   '/jobs': typeof JobsRoute
   '/notifications': typeof NotificationsRoute
   '/opportunities': typeof OpportunitiesRoute
   '/profile': typeof ProfileRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/roadmap': typeof RoadmapRoute
   '/saved': typeof SavedRoute
   '/settings': typeof SettingsRoute
   '/opportunity/$type/$id': typeof OpportunityTypeIdRoute
@@ -117,11 +141,14 @@ export interface FileRoutesById {
   '/applications': typeof ApplicationsRoute
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRoute
+  '/cover-letter': typeof CoverLetterRoute
+  '/interview-coach': typeof InterviewCoachRoute
   '/jobs': typeof JobsRoute
   '/notifications': typeof NotificationsRoute
   '/opportunities': typeof OpportunitiesRoute
   '/profile': typeof ProfileRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/roadmap': typeof RoadmapRoute
   '/saved': typeof SavedRoute
   '/settings': typeof SettingsRoute
   '/opportunity/$type/$id': typeof OpportunityTypeIdRoute
@@ -133,11 +160,14 @@ export interface FileRouteTypes {
     | '/applications'
     | '/assistant'
     | '/auth'
+    | '/cover-letter'
+    | '/interview-coach'
     | '/jobs'
     | '/notifications'
     | '/opportunities'
     | '/profile'
     | '/reset-password'
+    | '/roadmap'
     | '/saved'
     | '/settings'
     | '/opportunity/$type/$id'
@@ -147,11 +177,14 @@ export interface FileRouteTypes {
     | '/applications'
     | '/assistant'
     | '/auth'
+    | '/cover-letter'
+    | '/interview-coach'
     | '/jobs'
     | '/notifications'
     | '/opportunities'
     | '/profile'
     | '/reset-password'
+    | '/roadmap'
     | '/saved'
     | '/settings'
     | '/opportunity/$type/$id'
@@ -161,11 +194,14 @@ export interface FileRouteTypes {
     | '/applications'
     | '/assistant'
     | '/auth'
+    | '/cover-letter'
+    | '/interview-coach'
     | '/jobs'
     | '/notifications'
     | '/opportunities'
     | '/profile'
     | '/reset-password'
+    | '/roadmap'
     | '/saved'
     | '/settings'
     | '/opportunity/$type/$id'
@@ -176,11 +212,14 @@ export interface RootRouteChildren {
   ApplicationsRoute: typeof ApplicationsRoute
   AssistantRoute: typeof AssistantRoute
   AuthRoute: typeof AuthRoute
+  CoverLetterRoute: typeof CoverLetterRoute
+  InterviewCoachRoute: typeof InterviewCoachRoute
   JobsRoute: typeof JobsRoute
   NotificationsRoute: typeof NotificationsRoute
   OpportunitiesRoute: typeof OpportunitiesRoute
   ProfileRoute: typeof ProfileRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  RoadmapRoute: typeof RoadmapRoute
   SavedRoute: typeof SavedRoute
   SettingsRoute: typeof SettingsRoute
   OpportunityTypeIdRoute: typeof OpportunityTypeIdRoute
@@ -200,6 +239,13 @@ declare module '@tanstack/react-router' {
       path: '/saved'
       fullPath: '/saved'
       preLoaderRoute: typeof SavedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/roadmap': {
+      id: '/roadmap'
+      path: '/roadmap'
+      fullPath: '/roadmap'
+      preLoaderRoute: typeof RoadmapRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -235,6 +281,20 @@ declare module '@tanstack/react-router' {
       path: '/jobs'
       fullPath: '/jobs'
       preLoaderRoute: typeof JobsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/interview-coach': {
+      id: '/interview-coach'
+      path: '/interview-coach'
+      fullPath: '/interview-coach'
+      preLoaderRoute: typeof InterviewCoachRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cover-letter': {
+      id: '/cover-letter'
+      path: '/cover-letter'
+      fullPath: '/cover-letter'
+      preLoaderRoute: typeof CoverLetterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -280,11 +340,14 @@ const rootRouteChildren: RootRouteChildren = {
   ApplicationsRoute: ApplicationsRoute,
   AssistantRoute: AssistantRoute,
   AuthRoute: AuthRoute,
+  CoverLetterRoute: CoverLetterRoute,
+  InterviewCoachRoute: InterviewCoachRoute,
   JobsRoute: JobsRoute,
   NotificationsRoute: NotificationsRoute,
   OpportunitiesRoute: OpportunitiesRoute,
   ProfileRoute: ProfileRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  RoadmapRoute: RoadmapRoute,
   SavedRoute: SavedRoute,
   SettingsRoute: SettingsRoute,
   OpportunityTypeIdRoute: OpportunityTypeIdRoute,
