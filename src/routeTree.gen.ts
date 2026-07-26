@@ -15,6 +15,7 @@ import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as JobsRouteImport } from './routes/jobs'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as ApplicationsRouteImport } from './routes/applications'
 import { Route as IndexRouteImport } from './routes/index'
@@ -50,6 +51,11 @@ const JobsRoute = JobsRouteImport.update({
   path: '/jobs',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AssistantRoute = AssistantRouteImport.update({
   id: '/assistant',
   path: '/assistant',
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/applications': typeof ApplicationsRoute
   '/assistant': typeof AssistantRoute
+  '/auth': typeof AuthRoute
   '/jobs': typeof JobsRoute
   '/notifications': typeof NotificationsRoute
   '/opportunities': typeof OpportunitiesRoute
@@ -87,6 +94,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/applications': typeof ApplicationsRoute
   '/assistant': typeof AssistantRoute
+  '/auth': typeof AuthRoute
   '/jobs': typeof JobsRoute
   '/notifications': typeof NotificationsRoute
   '/opportunities': typeof OpportunitiesRoute
@@ -100,6 +108,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/applications': typeof ApplicationsRoute
   '/assistant': typeof AssistantRoute
+  '/auth': typeof AuthRoute
   '/jobs': typeof JobsRoute
   '/notifications': typeof NotificationsRoute
   '/opportunities': typeof OpportunitiesRoute
@@ -114,6 +123,7 @@ export interface FileRouteTypes {
     | '/'
     | '/applications'
     | '/assistant'
+    | '/auth'
     | '/jobs'
     | '/notifications'
     | '/opportunities'
@@ -126,6 +136,7 @@ export interface FileRouteTypes {
     | '/'
     | '/applications'
     | '/assistant'
+    | '/auth'
     | '/jobs'
     | '/notifications'
     | '/opportunities'
@@ -138,6 +149,7 @@ export interface FileRouteTypes {
     | '/'
     | '/applications'
     | '/assistant'
+    | '/auth'
     | '/jobs'
     | '/notifications'
     | '/opportunities'
@@ -151,6 +163,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ApplicationsRoute: typeof ApplicationsRoute
   AssistantRoute: typeof AssistantRoute
+  AuthRoute: typeof AuthRoute
   JobsRoute: typeof JobsRoute
   NotificationsRoute: typeof NotificationsRoute
   OpportunitiesRoute: typeof OpportunitiesRoute
@@ -204,6 +217,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JobsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/assistant': {
       id: '/assistant'
       path: '/assistant'
@@ -239,6 +259,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ApplicationsRoute: ApplicationsRoute,
   AssistantRoute: AssistantRoute,
+  AuthRoute: AuthRoute,
   JobsRoute: JobsRoute,
   NotificationsRoute: NotificationsRoute,
   OpportunitiesRoute: OpportunitiesRoute,
