@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as SavedRouteImport } from './routes/saved'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as NotificationsRouteImport } from './routes/notifications'
@@ -29,6 +30,11 @@ const SettingsRoute = SettingsRouteImport.update({
 const SavedRoute = SavedRouteImport.update({
   id: '/saved',
   path: '/saved',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfileRoute = ProfileRouteImport.update({
@@ -86,6 +92,7 @@ export interface FileRoutesByFullPath {
   '/notifications': typeof NotificationsRoute
   '/opportunities': typeof OpportunitiesRoute
   '/profile': typeof ProfileRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/saved': typeof SavedRoute
   '/settings': typeof SettingsRoute
   '/opportunity/$type/$id': typeof OpportunityTypeIdRoute
@@ -99,6 +106,7 @@ export interface FileRoutesByTo {
   '/notifications': typeof NotificationsRoute
   '/opportunities': typeof OpportunitiesRoute
   '/profile': typeof ProfileRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/saved': typeof SavedRoute
   '/settings': typeof SettingsRoute
   '/opportunity/$type/$id': typeof OpportunityTypeIdRoute
@@ -113,6 +121,7 @@ export interface FileRoutesById {
   '/notifications': typeof NotificationsRoute
   '/opportunities': typeof OpportunitiesRoute
   '/profile': typeof ProfileRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/saved': typeof SavedRoute
   '/settings': typeof SettingsRoute
   '/opportunity/$type/$id': typeof OpportunityTypeIdRoute
@@ -128,6 +137,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/opportunities'
     | '/profile'
+    | '/reset-password'
     | '/saved'
     | '/settings'
     | '/opportunity/$type/$id'
@@ -141,6 +151,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/opportunities'
     | '/profile'
+    | '/reset-password'
     | '/saved'
     | '/settings'
     | '/opportunity/$type/$id'
@@ -154,6 +165,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/opportunities'
     | '/profile'
+    | '/reset-password'
     | '/saved'
     | '/settings'
     | '/opportunity/$type/$id'
@@ -168,6 +180,7 @@ export interface RootRouteChildren {
   NotificationsRoute: typeof NotificationsRoute
   OpportunitiesRoute: typeof OpportunitiesRoute
   ProfileRoute: typeof ProfileRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   SavedRoute: typeof SavedRoute
   SettingsRoute: typeof SettingsRoute
   OpportunityTypeIdRoute: typeof OpportunityTypeIdRoute
@@ -187,6 +200,13 @@ declare module '@tanstack/react-router' {
       path: '/saved'
       fullPath: '/saved'
       preLoaderRoute: typeof SavedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile': {
@@ -264,6 +284,7 @@ const rootRouteChildren: RootRouteChildren = {
   NotificationsRoute: NotificationsRoute,
   OpportunitiesRoute: OpportunitiesRoute,
   ProfileRoute: ProfileRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   SavedRoute: SavedRoute,
   SettingsRoute: SettingsRoute,
   OpportunityTypeIdRoute: OpportunityTypeIdRoute,
