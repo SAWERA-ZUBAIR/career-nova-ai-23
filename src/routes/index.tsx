@@ -1,6 +1,10 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import { Briefcase, GraduationCap, Globe2, Sparkles, TrendingUp, Search } from "lucide-react";
+import { useMemo, useState } from "react";
+import {
+  Briefcase, GraduationCap, Globe2, Sparkles, TrendingUp, Search,
+  FileText, MessageSquare, Map, Shield, Rocket, Heart, Mail, ChevronDown,
+} from "lucide-react";
+import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
 import { PageHeader } from "@/components/PageHeader";
 import { GlassCard, SectionHeader, OpportunityCard, Badge } from "@/components/ui-bits";
@@ -25,6 +29,106 @@ const STATS = [
   { label: "Remote", value: "5.7k", icon: Globe2 },
 ];
 
+const AI_TOOLS = [
+  { to: "/assistant", label: "Career Advisor", desc: "Personalized recommendations", icon: Sparkles },
+  { to: "/cover-letter", label: "Cover Letter", desc: "Tailored in seconds", icon: FileText },
+  { to: "/interview-coach", label: "Interview Coach", desc: "Practice mock interviews", icon: MessageSquare },
+  { to: "/roadmap", label: "Career Roadmap", desc: "Your phased plan", icon: Map },
+] as const;
+
+const WHY = [
+  { icon: Rocket, title: "AI-powered guidance", desc: "Advice tuned to your goals and background." },
+  { icon: Shield, title: "Verified opportunities", desc: "Free-to-apply, official sources only." },
+  { icon: Heart, title: "Built for you", desc: "Students, grads and professionals worldwide." },
+];
+
+const FAQ = [
+  { q: "Is CareerNova AI free?", a: "Yes. Browsing, saving and every AI tool are free — no paywalls or application fees." },
+  { q: "Where do jobs come from?", a: "We surface verified roles from official employer sites and trusted platforms; expired listings are removed automatically." },
+  { q: "How does the AI advisor work?", a: "It uses your education, skills and goals to generate concrete, personalized suggestions." },
+  { q: "Do I need an account?", a: "No — you can browse without one. Signing in saves your bookmarks and applications across devices." },
+];
+
+function FeaturedRow({ type, title, to, search }: { type: string; title: string; to: "/jobs" | "/opportunities"; search: { q: string; cat: string } | { tab: string; q: string } }) {
+  const items = useMemo(() => OPPORTUNITIES.filter((o) => o.type === type).slice(0, 3), [type]);
+  if (items.length === 0) return null;
+  return (
+    <section className="px-5 pt-6">
+      <SectionHeader
+        title={title}
+        action={<Link to={to} search={search as never} className="text-xs font-semibold text-primary">View all</Link>}
+      />
+      <div className="flex flex-col gap-3">
+        {items.map((o) => (
+          <OpportunityCard
+            key={o.id}
+            opportunity={o}
+            badges={
+              <>
+                <Badge tone="primary">{o.category}</Badge>
+                {o.remote && <Badge tone="success">Remote</Badge>}
+              </>
+            }
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function FaqItem({ q, a }: { q: string; a: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <button onClick={() => setOpen((v) => !v)} className="glass w-full rounded-2xl px-4 py-3 text-left">
+      <div className="flex items-center justify-between gap-3">
+        <span className="text-sm font-semibold">{q}</span>
+        <ChevronDown className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
+      </div>
+      {open && <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{a}</p>}
+    </button>
+  );
+}
+
+function Newsletter() {
+  const [email, setEmail] = useState("");
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!/^\S+@\S+\.\S+$/.test(email)) return toast.error("Enter a valid email");
+    try {
+      const list = JSON.parse(localStorage.getItem("cn-newsletter") ?? "[]") as string[];
+      if (!list.includes(email)) list.push(email);
+      localStorage.setItem("cn-newsletter", JSON.stringify(list));
+    } catch { /* ignore */ }
+    toast.success("You're on the list ✨");
+    setEmail("");
+  };
+  return (
+    <GlassCard>
+      <div className="flex items-center gap-3">
+        <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-hero text-white shadow-elegant">
+          <Mail className="h-5 w-5" />
+        </div>
+        <div className="min-w-0">
+          <div className="font-display text-sm font-bold">Weekly opportunity digest</div>
+          <div className="text-[11px] text-muted-foreground">Hand-picked roles and scholarships, every week.</div>
+        </div>
+      </div>
+      <form onSubmit={submit} className="mt-3 flex gap-2">
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="you@example.com"
+          className="glass min-w-0 flex-1 rounded-full px-3 py-2 text-sm outline-none"
+        />
+        <button type="submit" className="rounded-full bg-cta px-4 py-2 text-xs font-semibold text-white shadow-elegant">
+          Subscribe
+        </button>
+      </form>
+    </GlassCard>
+  );
+}
+
 function Home() {
   const [q, setQ] = useState("");
   const navigate = useNavigate();
@@ -33,8 +137,6 @@ function Home() {
     e.preventDefault();
     navigate({ to: "/jobs", search: { q, cat: "All" } });
   };
-
-  const recent = OPPORTUNITIES.slice(0, 3);
 
   return (
     <AppShell>
@@ -90,30 +192,24 @@ function Home() {
       </section>
 
       <section className="px-5 pt-6">
-        <SectionHeader title="Quick actions" />
+        <SectionHeader title="AI career tools" action={<Sparkles className="h-4 w-4 text-primary" />} />
         <div className="grid grid-cols-2 gap-3">
-          <Link to="/jobs" search={{ q: "", cat: "All" }} className="glass-strong rounded-2xl p-4 transition-all hover:-translate-y-0.5 hover:shadow-elegant">
-            <div className="text-2xl">💼</div>
-            <div className="mt-2 font-display text-sm font-bold">Find Jobs</div>
-            <div className="mt-0.5 text-[11px] text-muted-foreground">Explore →</div>
-          </Link>
-          <Link to="/opportunities" search={{ tab: "internship", q: "" }} className="glass-strong rounded-2xl p-4 transition-all hover:-translate-y-0.5 hover:shadow-elegant">
-            <div className="text-2xl">🎓</div>
-            <div className="mt-2 font-display text-sm font-bold">Internships</div>
-            <div className="mt-0.5 text-[11px] text-muted-foreground">Explore →</div>
-          </Link>
-          <Link to="/opportunities" search={{ tab: "scholarship", q: "" }} className="glass-strong rounded-2xl p-4 transition-all hover:-translate-y-0.5 hover:shadow-elegant">
-            <div className="text-2xl">🏆</div>
-            <div className="mt-2 font-display text-sm font-bold">Scholarships</div>
-            <div className="mt-0.5 text-[11px] text-muted-foreground">Explore →</div>
-          </Link>
-          <Link to="/opportunities" search={{ tab: "remote", q: "" }} className="glass-strong rounded-2xl p-4 transition-all hover:-translate-y-0.5 hover:shadow-elegant">
-            <div className="text-2xl">🌍</div>
-            <div className="mt-2 font-display text-sm font-bold">Remote Jobs</div>
-            <div className="mt-0.5 text-[11px] text-muted-foreground">Explore →</div>
-          </Link>
+          {AI_TOOLS.map(({ to, label, desc, icon: Icon }) => (
+            <Link key={to} to={to} className="glass-strong rounded-2xl p-4 transition-all hover:-translate-y-0.5 hover:shadow-elegant">
+              <div className="grid h-10 w-10 place-items-center rounded-xl bg-hero text-white shadow-elegant">
+                <Icon className="h-5 w-5" />
+              </div>
+              <div className="mt-2 font-display text-sm font-bold">{label}</div>
+              <div className="mt-0.5 text-[11px] text-muted-foreground">{desc}</div>
+            </Link>
+          ))}
         </div>
       </section>
+
+      <FeaturedRow type="job" title="Featured jobs" to="/jobs" search={{ q: "", cat: "All" }} />
+      <FeaturedRow type="internship" title="Featured internships" to="/opportunities" search={{ tab: "internship", q: "" }} />
+      <FeaturedRow type="scholarship" title="Featured scholarships" to="/opportunities" search={{ tab: "scholarship", q: "" }} />
+      <FeaturedRow type="remote" title="Featured remote roles" to="/opportunities" search={{ tab: "remote", q: "" }} />
 
       <section className="px-5 pt-6">
         <SectionHeader title="Trending categories" action={<TrendingUp className="h-4 w-4 text-primary" />} />
@@ -134,24 +230,33 @@ function Home() {
       </section>
 
       <section className="px-5 pt-6">
-        <SectionHeader
-          title="Recent opportunities"
-          action={<Link to="/jobs" search={{ q: "", cat: "All" }} className="text-xs font-semibold text-primary">View all</Link>}
-        />
+        <SectionHeader title="Why CareerNova AI" />
         <div className="flex flex-col gap-3">
-          {recent.map((o) => (
-            <OpportunityCard
-              key={o.id}
-              opportunity={o}
-              badges={
-                <>
-                  <Badge tone="primary">{o.category}</Badge>
-                  {o.remote && <Badge tone="success">Remote</Badge>}
-                </>
-              }
-            />
+          {WHY.map(({ icon: Icon, title, desc }) => (
+            <GlassCard key={title}>
+              <div className="flex items-center gap-3">
+                <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-hero text-white shadow-elegant">
+                  <Icon className="h-5 w-5" />
+                </div>
+                <div className="min-w-0">
+                  <div className="font-display text-sm font-bold">{title}</div>
+                  <div className="text-[11px] text-muted-foreground">{desc}</div>
+                </div>
+              </div>
+            </GlassCard>
           ))}
         </div>
+      </section>
+
+      <section className="px-5 pt-6">
+        <SectionHeader title="FAQ" />
+        <div className="flex flex-col gap-2">
+          {FAQ.map((item) => <FaqItem key={item.q} {...item} />)}
+        </div>
+      </section>
+
+      <section className="px-5 pt-6">
+        <Newsletter />
       </section>
     </AppShell>
   );
