@@ -46,7 +46,7 @@ const FAQ = [
   { q: "Is CareerNova AI free?", a: "Yes. Browsing, saving and every AI tool are free — no paywalls or application fees." },
   { q: "Where do jobs come from?", a: "We surface verified roles from official employer sites and trusted platforms; expired listings are removed automatically." },
   { q: "How does the AI advisor work?", a: "It uses your education, skills and goals to generate concrete, personalized suggestions." },
-  { q: "Do I need an account?", a: "No — you can browse without one. Signing in saves your bookmarks and applications across devices." },
+  { q: "Do I need an account?", a: "Yes. Creating an account is mandatory. You must Sign Up or Log In before you can browse jobs, internships, scholarships, use AI tools, save opportunities, apply for positions, or access any feature of the application. Guest access is not allowed." },
 ];
 
 function FeaturedRow({ type, title, to, search }: { type: string; title: string; to: "/jobs" | "/opportunities"; search: { q: string; cat: string } | { tab: string; q: string } }) {

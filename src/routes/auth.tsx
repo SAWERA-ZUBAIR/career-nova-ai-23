@@ -209,10 +209,7 @@ function AuthPage() {
         </GlassCard>
 
         <p className="mt-4 text-center text-[11px] text-muted-foreground">
-          Prefer to explore first?{" "}
-          <Link to="/" className="text-primary font-semibold">
-            Browse without an account
-          </Link>
+          Authentication is required to use CareerNova AI. Sign up or log in to access every feature.
         </p>
       </div>
     </AppShell>
