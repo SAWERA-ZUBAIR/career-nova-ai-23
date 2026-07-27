@@ -188,8 +188,8 @@ npm run dev
 <img width="716" height="1488" alt="1000598542" src="https://github.com/user-attachments/assets/1c8eebb3-f3fa-4853-81b0-60425ba5b17a" />
 <img width="716" height="1476" alt="1000598541" src="https://github.com/user-attachments/assets/46d8e182-8fec-4727-8265-77bd5ee1545d" />
 <img width="716" height="1284" alt="1000598372" src="https://github.com/user-attachments/assets/d16e8410-f0b2-43b8-b457-3165c656bb84" />
-# Future Improvements
 
+# Future Improvements
 - AI Resume Builder
 - Resume Analyzer
 - Job Match Score
