@@ -7,7 +7,10 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import { useLocation, useNavigate } from "@tanstack/react-router";
+import { Loader2 } from "lucide-react";
+import type { Session } from "@supabase/supabase-js";
 import { Toaster } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
