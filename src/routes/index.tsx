@@ -141,6 +141,15 @@ function Home() {
   return (
     <AppShell>
       <PageHeader eyebrow="Hello there 👋" title="CareerNova AI" subtitle="Your AI companion for the next step." />
+      <section className="px-5 pb-4">
+        <div className="glass-strong flex items-center gap-4 rounded-3xl p-4">
+          <img src="/logo.png" alt="CareerNova AI" className="h-16 w-16 rounded-2xl object-cover shadow-elegant" width={64} height={64} />
+          <div className="min-w-0">
+            <div className="font-display text-lg font-black text-gradient">CareerNova AI</div>
+            <p className="text-xs text-muted-foreground">Launch your career with AI-powered guidance.</p>
+          </div>
+        </div>
+      </section>
 
       <section className="px-5">
         <div className="relative overflow-hidden rounded-3xl bg-hero p-6 text-white shadow-elegant">

@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Loader2, Mail, Lock, User, ArrowRight, Sparkles } from "lucide-react";
+import { Loader2, Mail, Lock, User, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
@@ -98,8 +98,8 @@ function AuthPage() {
     <AppShell>
       <div className="px-5 pt-10">
         <div className="mb-6 text-center">
-          <div className="mx-auto grid h-14 w-14 place-items-center rounded-3xl bg-hero text-white shadow-elegant">
-            <Sparkles className="h-6 w-6" />
+          <div className="mx-auto h-20 w-20 overflow-hidden rounded-3xl bg-white shadow-elegant">
+            <img src="/logo.png" alt="CareerNova AI" className="h-full w-full object-cover" width={80} height={80} />
           </div>
           <h1 className="mt-3 font-display text-2xl font-black">{title}</h1>
           <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>
