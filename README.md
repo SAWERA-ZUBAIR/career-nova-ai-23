@@ -10,7 +10,7 @@ Career Nova AI solves this problem by bringing all career opportunities into one
 
 # Live Demo
 
-https://career-nova-ai-23.vercel.app/
+https://career-nova-ai-23-t87s.vercel.app/
 
 # GitHub Repository
 
