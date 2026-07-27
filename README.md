@@ -64,7 +64,6 @@ https://github.com/SAWERA-ZUBAIR/career-nova-ai-23
 - Official Apply Links
 
 ## Scholarships
-
 - National Scholarships
 - International Scholarships
 - Funding Details
